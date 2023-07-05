@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stan produktów</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stan produktów</h1>
+
+    <table id="productsTable">
+        <tr>
+            <th>Produkt</th>
+            <th>Stan</th>
+        </tr>
+        <tr>
+            <td>Różowa piana</td>
+            <td id="pinkFoam">0</td>
+        </tr>
+        <tr>
+            <td>Aktywator</td>
+            <td id="activator">0</td>
+        </tr>
+        <tr>
+            <td>Szampon Platinum</td>
+            <td id="platinumShampoo">0</td>
+        </tr>
+        <tr>
+            <td>Szczotka zapachowa</td>
+            <td id="scentedBrush">0</td>
+        </tr>
+        <tr>
+            <td>Wosk</td>
+            <td id="wax">0</td>
+        </tr>
+        <tr>
+            <td>Do felg</td>
+            <td id="wheelCleaner">0</td>
+        </tr>
+        <tr>
+            <td>Sól</td>
+            <td id="salt">0</td>
+        </tr>
+    </table>
+
+    <h2>Uzupełnij stan produktu</h2>
+    <form id="productForm">
+        <label for="productName">Produkt:</label>
+        <select id="productName">
+            <option value="pinkFoam">Różowa piana</option>
+            <option value="activator">Aktywator</option>
+            <option value="platinumShampoo">Szampon Platinum</option>
+            <option value="scentedBrush">Szczotka zapachowa</option>
+            <option value="wax">Wosk</option>
+            <option value="wheelCleaner">Do felg</option>
+            <option value="salt">Sól</option>
+        </select>
+        <br>
+        <label for="productQuantity">Ilość:</label>
+        <input type="number" id="productQuantity" min="0">
+        <br>
+        <input type="submit" value="Zapisz">
+    </form>
+
+    <script>
+        // Funkcja wywoływana po kliknięciu przycisku "Zapisz"
+        document.getElementById("productForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Zapobiega odświeżeniu strony po kliknięciu przycisku
+
+            var productName = document.getElementById("productName").value;
+            var productQuantity = parseInt(document.getElementById("productQuantity").value);
+
+            // Aktualizacja stanu produktu w tabeli
+            document.getElementById(productName).innerText = productQuantity;
+
+            // Zapisywanie danych w Local Storage
+            localStorage.setItem(productName, productQuantity);
+        });
+
+        // Wczytanie zapisanych danych z Local Storage przy otwarciu strony
+        document.addEventListener("DOMContentLoaded", function() {
+            for (var i = 0; i < localStorage.length; i++) {
+                var productName = localStorage.key(i);
+                var productQuantity = localStorage.getItem(productName);
+                if (document.getElementById(productName)) {
+                    document.getElementById(productName).innerText = productQuantity;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
